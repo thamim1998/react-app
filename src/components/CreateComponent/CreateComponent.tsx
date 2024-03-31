@@ -6,21 +6,19 @@ import Modal from "react-bootstrap/Modal";
 type ModalProps = {
   showModal: boolean;
   onClose: () => void;
+  onObjectAdded: (newObject: any) => void; 
 };
 
-const CreateComponent: React.FC<ModalProps> = ({ showModal, onClose }) => {
+const CreateComponent: React.FC<ModalProps> = ({ showModal, onClose, onObjectAdded }) => {
   const [fileName, setFilename] = useState("");
   const [path, setPath] = useState('');
-
-  const handleClose = () => {
-    console.log(showModal);
-  };
+  let currentPath = window.location.pathname
 
   const createFolderFile = (event: any) => {
     event.preventDefault();
     const data = { fileName };
     const isFolder = data.fileName;
-    let type;
+    let type : string;
     if (isFolder.includes(".")) {
       type = "file";
     } else {
@@ -43,9 +41,15 @@ const CreateComponent: React.FC<ModalProps> = ({ showModal, onClose }) => {
       .post("http://localhost:4000/api/fileSystem/add", {
         docName: data.fileName,
         type: type,
+        path:currentPath
       })
       .then((response) => {
         console.log(response);
+        onObjectAdded({
+          docName: data.fileName,
+          type: type,
+          path:currentPath
+        }); 
         alert("successful created ");
       })
       .catch((error) => {
@@ -70,8 +74,8 @@ const CreateComponent: React.FC<ModalProps> = ({ showModal, onClose }) => {
             onChange={(e) => setFilename(e.target.value)}
           />
           {fileName}
+          {currentPath}
           <div>
-            {/* <Button onClick={onClose}>Close</Button> */}
             <Button variant="primary" type="submit">
               Create
             </Button>

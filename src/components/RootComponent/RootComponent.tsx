@@ -1,25 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CreateComponent from "../CreateComponent/CreateComponent";
-
-interface FileSystemResponse {
-  fileSystem: fileData[]; // Define the structure of a single FileSystemResponse
-}
+import DisplayComponent from "../DisplayComponent/DisplayComponent";
 
 interface fileData {
-  name: string;
+  docName: string;
   path: string;
   type: string;
 }
-
-const FolderIcon = () => (
-  <img src="./assets/icons/folder-icon.png" alt="Folder Icon" />
-);
-const FileIcon = () => (
-  <img src="./assets/icons/file-icon.png" alt="File Icon" />
-);
 
 function RootComponent() {
   const [showModal, setShowModal] = useState(false);
@@ -28,14 +18,11 @@ function RootComponent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<FileSystemResponse[]>(
+        const response = await axios.get<fileData[]>(
           "http://localhost:4000/api/fileSystem",
         );
-        console.log("res", response.data);
-        if (response.data.length > 0) {
-          // Assuming the response contains an array of FileSystemResponse
-          setFiledata(response.data[0].fileSystem); // Access the 'fileSystem' property of the first FileSystemResponse
-        }
+        console.log("thamim", response.data);
+        setFiledata(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -50,27 +37,28 @@ function RootComponent() {
   const handleShowModal = () => {
     setShowModal(true);
   };
+
+  const handleObjectAdded = (newObject: {docName:string,path:string,type:string}) => {
+    // Handle the new object added here
+    console.log('New object added:', newObject);
+  };
   return (
     <Container>
-      <div>
-        {fileData ? (
-          <ul>
-            {fileData.map((item, index) => (
-              <li key={index}>{item.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>Loading...</p>
-        )}
-        {/* <Link to={`/${id}`}>
-      <FolderIcon/>
-        Thamim
-      </Link> */}
-      </div>
-      <button onClick={handleShowModal}>Show Modal</button>
-      {/* <ModalComponent showModal={showModal} onClose={handleCloseModal} /> */}
+     <Row>
+        <Col xs={12} md={4} lg={3} className="mt-4">
+          <div onClick={handleShowModal}>
+            <img src="/assets/icons/add-folder.png" />
+          </div>
+        </Col>
 
-      <CreateComponent showModal={showModal} onClose={handleCloseModal} />
+        {/* Conditionally render the DisplayComponent within the same Row */}
+        {fileData && fileData.map((item, index) => (
+          <Col key={index} xs={12} md={4} lg={3} className="mt-2 mb-4">
+            <DisplayComponent {...item} />
+          </Col>
+        ))}
+      </Row>
+      <CreateComponent  onObjectAdded={handleObjectAdded} showModal={showModal} onClose={handleCloseModal} />
     </Container>
   );
 }

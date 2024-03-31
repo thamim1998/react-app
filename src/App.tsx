@@ -10,7 +10,7 @@ export default function App() {
     <div>
       <Routes>
         <Route path="/" element={<RootComponent />} />
-        <Route path="/:path"  element={<SubfolderComponent/>} />
+        <Route path="/:path/*"  element={<SubfolderComponent/>} />
       </Routes>
     </div>
   </BrowserRouter>

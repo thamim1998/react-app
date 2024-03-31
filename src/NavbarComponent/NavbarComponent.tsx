@@ -12,8 +12,7 @@ function NavbarComponent() {
     <Navbar className="nav-head">
       <Container>
         <Navbar.Brand>
-          {" "}
-          <span className="title">CoCrafter File Management System </span>{" "}
+          <span className="title">CoCrafter File Management System </span>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
@@ -27,7 +26,7 @@ function NavbarComponent() {
                     placeholder="Search a file or folder"
                   />
                   <button type="submit" className="searchButton">
-                    <img className="search-image" src="./assets/icons/search.svg" />
+                    <img className="search-image" src="/assets/icons/search.svg" />
                   </button>
                 </div>
               </div>
