@@ -33,6 +33,7 @@ const DisplayComponent: React.FC<DisplayProps> = ({ docName, type, path, onDelet
 
   const handleDelete = () => {
     onDelete({ docName, path, type });
+    setShowMenu(false)
   };
 
   return (
