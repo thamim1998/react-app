@@ -19,24 +19,16 @@ const CreateComponent: React.FC<ModalProps> = ({ showModal, onClose, onObjectAdd
     event.preventDefault();
     const data = { fileName };
     const isFolder = data.fileName;
+    const url = new URL(window.location.href);
+    const pathname = url.pathname;
     let type : string;
     if (isFolder.includes(".")) {
       type = "file";
     } else {
       type = "folder";
     }
-    console.log(window.location.href);
-    const url = new URL(window.location.href);
-
-    const pathname = url.pathname;
-    console.log("path", pathname);
 
     setPath(pathname === "/" ? "root" : pathname);
-
-    console.log(
-      { docName: data.fileName, type: type, path: pathname },
-      "registration",
-    );
 
     axios
       .post("http://localhost:4000/api/fileSystem/add", {

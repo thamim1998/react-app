@@ -48,6 +48,12 @@ function SubfolderComponent() {
     setFiledata((prevFileData) => [...prevFileData, newObject]);
   };
 
+  const handleDeleteItem = (itemToDelete: { docName: string; path: string; type: string }) => {
+    setFiledata((prevFileData) =>
+      prevFileData.filter(item => !(item.path === itemToDelete.path && item.docName === itemToDelete.docName && item.type === itemToDelete.type))
+    );
+  };
+
   return (
     <Container>
       <Row>
@@ -57,11 +63,10 @@ function SubfolderComponent() {
           </div>
         </Col>
 
-        {/* Conditionally render the DisplayComponent within the same Row */}
         {fileData &&
           fileData.map((item, index) => (
             <Col key={index} xs={12} md={4} lg={3} className="mt-2 mb-4">
-              <DisplayComponent {...item} />
+              <DisplayComponent {...item} onDelete={handleDeleteItem} />
             </Col>
           ))}
       </Row>
