@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import CreateComponent from "../../CreateComponent/CreateComponent";
 import DisplayComponent from "../DisplayComponent";
-import './SubfolderComponent.css'
-import { useLocation} from 'react-router-dom';
-
+import "./SubfolderComponent.css";
+import { useLocation } from "react-router-dom";
 
 interface fileData {
   docName: string;
@@ -23,14 +22,14 @@ function SubfolderComponent() {
     const fetchData = async () => {
       try {
         const response = await axios.get<fileData[]>(
-          `http://localhost:4000/api/fileSystem/doc?path=${currentPath}`
+          `http://localhost:4000/api/fileSystem/doc?path=${currentPath}`,
         );
         setFiledata(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-      fetchData();
+    fetchData();
   }, [location]);
 
   const handleCloseModal = () => {
@@ -41,29 +40,37 @@ function SubfolderComponent() {
     setShowModal(true);
   };
 
-  const handleObjectAdded = (newObject: {docName:string,path:string,type:string}) => {
-    console.log('New object added:', newObject);
-    setFiledata(prevFileData => [...prevFileData, newObject]);
+  const handleObjectAdded = (newObject: {
+    docName: string;
+    path: string;
+    type: string;
+  }) => {
+    setFiledata((prevFileData) => [...prevFileData, newObject]);
   };
 
   return (
     <Container>
-    <Row>
-       <Col xs={12} md={4} lg={3} className="mt-4">
-         <div onClick={handleShowModal}>
-           <img src="/assets/icons/add-folder.png" />
-         </div>
-       </Col>
+      <Row>
+        <Col xs={12} md={4} lg={3} className="mt-4">
+          <div onClick={handleShowModal}>
+            <img src="/assets/icons/add-folder.png" />
+          </div>
+        </Col>
 
-       {/* Conditionally render the DisplayComponent within the same Row */}
-       {fileData && fileData.map((item, index) => (
-         <Col key={index} xs={12} md={4} lg={3} className="mt-2 mb-4">
-           <DisplayComponent {...item} />
-         </Col>
-       ))}
-     </Row>
-     <CreateComponent  onObjectAdded={handleObjectAdded} showModal={showModal} onClose={handleCloseModal} />
-   </Container>
+        {/* Conditionally render the DisplayComponent within the same Row */}
+        {fileData &&
+          fileData.map((item, index) => (
+            <Col key={index} xs={12} md={4} lg={3} className="mt-2 mb-4">
+              <DisplayComponent {...item} />
+            </Col>
+          ))}
+      </Row>
+      <CreateComponent
+        onObjectAdded={handleObjectAdded}
+        showModal={showModal}
+        onClose={handleCloseModal}
+      />
+    </Container>
   );
 }
 

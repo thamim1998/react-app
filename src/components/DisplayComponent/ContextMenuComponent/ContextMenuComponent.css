@@ -1,0 +1,18 @@
+.dropdown-content {
+  padding: 10px;
+  background-color: rgb(238, 238, 234);
+}
+.dropdown-content li {
+  width: 100px;
+  padding: 5px;
+  list-style: none;
+}
+
+.dropdown-content li:hover {
+  background-color: #ddd;
+}
+
+.link-tag, ul li {
+  text-decoration: none;
+  color: black;
+}

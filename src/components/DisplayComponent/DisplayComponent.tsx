@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import ContextMenuComponent from "./ContextMenuComponent/ContextMenuComponent";
 import "./DisplayComponent.css";
 
-const FolderIcon = () => (
-<img src="/assets/icons/folder-icon.png" alt="Folder Icon" />
+interface FolderIconProps {
+  onClick: () => void;
+}
+
+const FolderIcon: React.FC<FolderIconProps> = ({ onClick }) => (
+  <img src="/assets/icons/folder-icon.png" alt="Folder Icon" onClick={onClick} />
 );
+
 const FileIcon = () => (
-<img src="/assets/icons/file-icon.png" alt="File Icon" />
+  <img src="/assets/icons/file-icon.png" alt="File Icon" />
 );
 
 type DisplayProps = {
@@ -17,9 +22,26 @@ type DisplayProps = {
 };
 
 const DisplayComponent: React.FC<DisplayProps> = ({ docName, type, path }) => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleFolderIconClick = () => {
+    setShowMenu(!showMenu)
+  }
+
   return (
-    <Col  lg={12} className="mt-2 mb-4 text-center folder-icon">
-      {type === "folder" ? <Link to={`${path}/${docName}`}> <FolderIcon /></Link>  : <FileIcon />}
+    <Col lg={12} className="mt-2 mb-4 text-center folder-icon">
+      {type === "folder" ? (
+        <div style={{ position: 'relative' }}>
+        <FolderIcon onClick={handleFolderIconClick} />
+        {showMenu && (
+          <div className="context-menu" style={{ position: 'absolute', top: '0px', right: 0 }}>
+            <ContextMenuComponent showMenu={showMenu} path={path} docName={docName} />
+          </div>
+        )}
+      </div>
+      ) : (
+        <FileIcon />
+      )}
       <p>{docName}</p>
     </Col>
   );

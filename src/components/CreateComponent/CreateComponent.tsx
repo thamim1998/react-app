@@ -12,6 +12,7 @@ type ModalProps = {
 const CreateComponent: React.FC<ModalProps> = ({ showModal, onClose, onObjectAdded }) => {
   const [fileName, setFilename] = useState("");
   const [path, setPath] = useState('');
+
   let currentPath = window.location.pathname
 
   const createFolderFile = (event: any) => {
@@ -63,7 +64,6 @@ const CreateComponent: React.FC<ModalProps> = ({ showModal, onClose, onObjectAdd
       <Modal.Header closeButton>
         <Modal.Title>Create a Folder/File</Modal.Title>
       </Modal.Header>
-
       <Modal.Body>
         <form onSubmit={(event) => createFolderFile(event)}>
           <input

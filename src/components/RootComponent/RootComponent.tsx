@@ -16,10 +16,13 @@ function RootComponent() {
   const [fileData, setFiledata] = useState<fileData[]>([]);
 
   useEffect(() => {
+    let currentPath = window.location.pathname;
+    console.log('path', currentPath);
+    
     const fetchData = async () => {
       try {
         const response = await axios.get<fileData[]>(
-          "http://localhost:4000/api/fileSystem",
+          `http://localhost:4000/api/fileSystem/doc?path=${currentPath}`,
         );
         console.log("thamim", response.data);
         setFiledata(response.data);
@@ -38,27 +41,34 @@ function RootComponent() {
     setShowModal(true);
   };
 
-  const handleObjectAdded = (newObject: {docName:string,path:string,type:string}) => {
-    // Handle the new object added here
-    console.log('New object added:', newObject);
+  const handleObjectAdded = (newObject: {
+    docName: string;
+    path: string;
+    type: string;
+  }) => {
+    setFiledata((prevFileData) => [...prevFileData, newObject]);
   };
   return (
     <Container>
-     <Row>
+      <Row>
         <Col xs={12} md={4} lg={3} className="mt-4">
           <div onClick={handleShowModal}>
             <img src="/assets/icons/add-folder.png" />
           </div>
         </Col>
 
-        {/* Conditionally render the DisplayComponent within the same Row */}
-        {fileData && fileData.map((item, index) => (
-          <Col key={index} xs={12} md={4} lg={3} className="mt-2 mb-4">
-            <DisplayComponent {...item} />
-          </Col>
-        ))}
+        {fileData &&
+          fileData.map((item, index) => (
+            <Col key={index} xs={12} md={4} lg={3} className="mt-2 mb-4">
+              <DisplayComponent {...item} />
+            </Col>
+          ))}
       </Row>
-      <CreateComponent  onObjectAdded={handleObjectAdded} showModal={showModal} onClose={handleCloseModal} />
+      <CreateComponent
+        onObjectAdded={handleObjectAdded}
+        showModal={showModal}
+        onClose={handleCloseModal}
+      />
     </Container>
   );
 }
