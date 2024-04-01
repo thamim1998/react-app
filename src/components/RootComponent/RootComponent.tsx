@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 import CreateComponent from "../CreateComponent/CreateComponent";
 import DisplayComponent from "../DisplayComponent/DisplayComponent";
 
@@ -17,14 +16,12 @@ function RootComponent() {
 
   useEffect(() => {
     let currentPath = window.location.pathname;
-    console.log('path', currentPath);
     
     const fetchData = async () => {
       try {
         const response = await axios.get<fileData[]>(
           `http://localhost:4000/api/fileSystem/doc?path=${currentPath}`,
         );
-        console.log("thamim", response.data);
         setFiledata(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -61,7 +58,7 @@ function RootComponent() {
       <Row>
         <Col xs={12} md={4} lg={3} className="mt-4">
           <div onClick={handleShowModal}>
-            <img src="/assets/icons/add-folder.png" />
+            <img src="/assets/icons/add-folder.png" alt="Folder" />
           </div>
         </Col>
 

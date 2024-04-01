@@ -59,7 +59,7 @@ function SubfolderComponent() {
       <Row>
         <Col xs={12} md={4} lg={3} className="mt-4">
           <div onClick={handleShowModal}>
-            <img src="/assets/icons/add-folder.png" />
+            <img src="/assets/icons/add-folder.png" alt="Folder" />
           </div>
         </Col>
 
