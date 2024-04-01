@@ -1,3 +1,11 @@
 .empty-folder {
     text-align: center;
 }
+
+.add-folder{
+    cursor: pointer;
+}
+
+.new-folder {
+    font-weight: bold;
+}

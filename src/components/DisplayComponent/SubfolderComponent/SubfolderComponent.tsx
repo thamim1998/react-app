@@ -57,9 +57,10 @@ function SubfolderComponent() {
   return (
     <Container>
       <Row>
-        <Col xs={12} md={4} lg={3} className="mt-4">
+        <Col xs={12} md={4} lg={3} className="mt-4 add-folder text-center">
           <div onClick={handleShowModal}>
             <img src="/assets/icons/add-folder.png" alt="Folder" />
+            <p className="new-folder">New </p>
           </div>
         </Col>
 
